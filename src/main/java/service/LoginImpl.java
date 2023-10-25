@@ -19,13 +19,13 @@ public class LoginImpl implements ILogin {
 		String pass = "TIGER";
 		try {
 			Connection con = DriverManager.getConnection(url,user,pass);
-			String query = "SELECT pwd FROM account where name='" +vo.getId()+"'";
+			String query = "SELECT password FROM account where id='" + vo.getId() + "'";
 			PreparedStatement pstmt = con.prepareStatement(query); 
 			ResultSet rs = pstmt.executeQuery();
 					
 			String pwd = null;
 			while(rs.next())
-                pwd=rs.getString("pwd").trim();
+                pwd=rs.getString("password").trim();
 
 	        rs.close();
 	        pstmt.close();

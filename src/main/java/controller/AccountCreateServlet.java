@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,7 +28,13 @@ public class AccountCreateServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String choice = request.getParameter("choice");
-		response.getWriter().append(choice);
+		//;/String id = request.getParameter("id");
+		//response.getWriter().append(choice);
+		//request.setAttribute("id", id);
+		//RequestDispatcher view = request.getRequestDispatcher("createaccount.jsp");
+		//view.forward(request,  response);
+		
+		
 		if(choice.equals("checkId"))
 			checkId(request,response);
 		if(choice.equals("checkNick"))
@@ -36,16 +44,39 @@ public class AccountCreateServlet extends HttpServlet {
 
 	}
 	
-	protected void checkId(HttpServletRequest request, HttpServletResponse response) {
+	protected void checkId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String id = request.getParameter("id");
+		String nick = request.getParameter("nick");
 		AccountVO vo = new AccountVO();
 		AccountCreateEntity ace = new AccountCreateEntity();
 		vo.setId(id);
+		if(ace.checkId(vo) == null)
+			vo.setIdChk("사용가능");
+		else
+			vo.setIdChk("사용불가");
+		request.setAttribute("idChk",vo.getIdChk());
+		request.setAttribute("nickChk",vo.getNickChk());
+		request.setAttribute("id", id);
+		request.setAttribute("nick", nick);
+		RequestDispatcher view = request.getRequestDispatcher("createaccount.jsp");
+		view.forward(request,  response);
 	}
-	protected void checkNick(HttpServletRequest request, HttpServletResponse response) {
+	protected void checkNick(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String id = request.getParameter("id");
 		String nick = request.getParameter("nick");	
 		AccountVO vo = new AccountVO();
+		AccountCreateEntity ace = new AccountCreateEntity();
 		vo.setNick(nick);
+		if(ace.checkNick(vo) == null)
+			vo.setNickChk("사용가능");
+		else
+			vo.setNickChk("사용불가");
+		request.setAttribute("idChk",vo.getIdChk());
+		request.setAttribute("nickChk",vo.getNickChk());
+		request.setAttribute("id", id);
+		request.setAttribute("nick", nick);
+		RequestDispatcher view = request.getRequestDispatcher("createaccount.jsp");
+		view.forward(request,  response);
 	}
 	protected void create(HttpServletRequest request, HttpServletResponse response) {
 		

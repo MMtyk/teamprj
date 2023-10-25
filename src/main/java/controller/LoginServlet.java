@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import entity.AccountCreateEntity;
 import service.LoginImpl;
 import service.ILogin;
 import vo.AccountVO;
@@ -26,22 +27,32 @@ public class LoginServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		try {
-			String op1 = request.getParameter("op1");
-			String op2 = request.getParameter("op2");
-
-			ILogin cs = new LoginImpl();
-			AccountVO vo = new AccountVO(op1, op2);
-			request.setAttribute("op1", vo.getId());
-			request.setAttribute("op2", vo.getPasswd());
-
-			if(vo.getPasswd().equals(cs.checkPass(vo))) {
-				RequestDispatcher view = request.getRequestDispatcher("view/main.jsp");
+			String choice = request.getParameter("choice");
+			AccountCreateEntity ace = new AccountCreateEntity();
+			if(choice.equals("create")) {
+				System.out.println("bf");
+				ace.addAccount();
+				System.out.println("bf2");
+				RequestDispatcher view = request.getRequestDispatcher("createaccount.jsp");
 				view.forward(request,  response);
-			}
-			else {
-				RequestDispatcher view = request.getRequestDispatcher("view/error.jsp");
-				view.forward(request,  response);
+			} else {
+				String op1 = request.getParameter("op1");
+				String op2 = request.getParameter("op2");
+				ILogin cs = new LoginImpl();
+				AccountVO vo = new AccountVO(op1, op2);
+				request.setAttribute("op1", vo.getId());
+				request.setAttribute("op2", vo.getPasswd());
+	
+				if(vo.getPasswd().equals(cs.checkPass(vo))) {
+					RequestDispatcher view = request.getRequestDispatcher("view/main.jsp");
+					view.forward(request,  response);
+				}
+				else {
+					RequestDispatcher view = request.getRequestDispatcher("view/error.jsp");
+					view.forward(request,  response);
+				}
 			}
 		}catch(Exception e) {
 			RequestDispatcher view = request.getRequestDispatcher("view/error.jsp");

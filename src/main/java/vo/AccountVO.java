@@ -5,6 +5,8 @@ public class AccountVO {
 	private String id;
 	private String passwd;
 	private String nick;
+	private String idChk;
+	private String nickChk;
 	
 	public AccountVO() {
 	}
@@ -35,6 +37,22 @@ public class AccountVO {
 
 	public void setNick(String nick) {
 		this.nick = nick;
+	}
+
+	public String getIdChk() {
+		return idChk;
+	}
+
+	public void setIdChk(String idChk) {
+		this.idChk = idChk;
+	}
+
+	public String getNickChk() {
+		return nickChk;
+	}
+
+	public void setNickChk(String nickChk) {
+		this.nickChk = nickChk;
 	}
 }
 

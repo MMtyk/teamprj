@@ -1,12 +1,16 @@
-drop table tb_comment;
-CREATE TABLE tb_comment (
-   id  int NOT NULL,
-   name  varchar(15) NOT NULL,
-   content varchar(30) NOT NULL
+drop table account;
+
+CREATE TABLE account (
+	idnum int NOT NULL,
+	id varchar(10),
+	username varchar(10),
+	password varchar(20),
+	author int,
+	joindate timestamp
 );
 
-ALTER TABLE tb_comment ADD PRIMARY KEY (id);
+ALTER TABLE account ADD PRIMARY KEY (idnum);
 
-insert into tb_comment(id, content, name) values(1,'abc', 'abc');
+insert into account(idnum, id, username, password, author) values(1, 'admin', 'manager', 'asdf',10);
 
-select * from tb_comment;
+select * from account;
