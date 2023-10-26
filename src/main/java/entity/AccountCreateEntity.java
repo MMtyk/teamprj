@@ -19,7 +19,7 @@ public class AccountCreateEntity {
 			e.printStackTrace();
 		}
 	}
-	public void addAccount() {
+	public int addAccount() {
 		try {
 			Connection con = DriverManager.getConnection(url,user,pass);
 			String query = "select max(idnum) idnum from account";
@@ -29,23 +29,78 @@ public class AccountCreateEntity {
 			while(rs.next())
                 idnum = rs.getInt("idnum") + 1;
 			
-			System.out.println(idnum);
 	        rs.close();
 	        pstmt.close();
 	        query = "insert into account(idnum) values("+idnum+")";
-	        System.out.println(5);
 	        PreparedStatement pstmt2 = con.prepareStatement(query); 
-	        System.out.println(6);
 	        pstmt2.executeUpdate();	
-	        System.out.println(7);
 			pstmt2.close();
 	        con.close();
-	        System.out.println(9);
+	        return idnum;
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+	
+	public void Back1(AccountVO vo) {
+		try {
+			Connection con = DriverManager.getConnection(url,user,pass);
+			String query = "delete account where idnum="+ vo.getIdNum();
+			PreparedStatement pstmt = con.prepareStatement(query); 
+
+			pstmt.executeUpdate();
+			
+	        pstmt.close();
+	        con.close();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	public String checkId(AccountVO vo) {
+	
+	public String Back2(AccountVO vo) {
+		try {
+			Connection con = DriverManager.getConnection(url,user,pass);
+			String query = "select id from account where idnum="+vo.getIdNum();
+			PreparedStatement pstmt = con.prepareStatement(query); 
+			ResultSet rs = pstmt.executeQuery();
+			String id = null;
+			while(rs.next())
+                id=rs.getString("id").trim();
+			query = "update account set id='' where idnum="+vo.getIdNum();
+			pstmt = con.prepareStatement(query); 
+			pstmt.executeUpdate();
+	        pstmt.close();
+	        con.close();
+	        return id;
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	public String Back3(AccountVO vo) {
+		try {
+			Connection con = DriverManager.getConnection(url,user,pass);
+			String query = "select username from account where idnum="+vo.getIdNum();
+			PreparedStatement pstmt = con.prepareStatement(query); 
+			ResultSet rs = pstmt.executeQuery();
+			String nick = null;
+			while(rs.next())
+                nick=rs.getString("username").trim();
+			System.out.println(nick);
+			query = "update account set username='' where idnum="+vo.getIdNum();
+			pstmt = con.prepareStatement(query); 
+			pstmt.executeUpdate();
+	        pstmt.close();
+	        con.close();
+	        return nick;
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public String next1(AccountVO vo) {
 		try {
 			Connection con = DriverManager.getConnection(url,user,pass);
 			String query = "select id from account where id='"+vo.getId()+"'";
@@ -54,7 +109,11 @@ public class AccountCreateEntity {
 			String id = null;
 			while(rs.next())
                 id=rs.getString("id").trim();
-
+			if(id == null) {
+				query = "update account set id='"+vo.getId()+"' where idnum="+vo.getIdNum();
+				pstmt = con.prepareStatement(query);
+				pstmt.executeUpdate();
+			}
 	        rs.close();
 	        pstmt.close();
 	        con.close();
@@ -65,7 +124,7 @@ public class AccountCreateEntity {
 		}
 	}
 		
-	public String checkNick(AccountVO vo) {
+	public String next2(AccountVO vo) {
 		try {
 			Connection con = DriverManager.getConnection(url,user,pass);
 			String query = "select username from account where username='"+vo.getNick()+"'";
@@ -74,7 +133,11 @@ public class AccountCreateEntity {
 			String nick = null;
 			while(rs.next())
 				nick=rs.getString("username").trim();
-			
+			if(nick == null) {
+				query = "update account set username='"+vo.getNick()+"' where idnum="+vo.getIdNum();
+				pstmt = con.prepareStatement(query);
+				pstmt.executeUpdate();
+			}
 	        rs.close();
 	        pstmt.close();
 	        con.close();
@@ -83,6 +146,39 @@ public class AccountCreateEntity {
 		}catch(SQLException e) {
 			e.printStackTrace();
 			return "1234";
+		}
+	}
+	
+	public void next3(AccountVO vo) {
+		try {
+			Connection con = DriverManager.getConnection(url,user,pass);
+			String query = "update account set password='"+vo.getPasswd()+"' where idnum=" + vo.getIdNum();
+			PreparedStatement pstmt = con.prepareStatement(query); 
+			pstmt.executeUpdate();
+	        pstmt.close();
+	        con.close();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public String next4(AccountVO vo) {
+		try {
+			Connection con = DriverManager.getConnection(url,user,pass);
+			String query = "select password from account where idnum=" + vo.getIdNum();
+			PreparedStatement pstmt = con.prepareStatement(query); 
+			ResultSet rs = pstmt.executeQuery();
+			String passwd = null;
+			while(rs.next())
+				passwd=rs.getString("password").trim();
+			rs.close();
+	        pstmt.close();
+	        con.close();
+			return passwd;
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 }

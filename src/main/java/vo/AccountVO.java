@@ -2,6 +2,7 @@
 package vo;
 
 public class AccountVO {
+	private String idNum;
 	private String id;
 	private String passwd;
 	private String nick;
@@ -53,6 +54,14 @@ public class AccountVO {
 
 	public void setNickChk(String nickChk) {
 		this.nickChk = nickChk;
+	}
+
+	public String getIdNum() {
+		return idNum;
+	}
+
+	public void setIdNum(String idNum) {
+		this.idNum = idNum;
 	}
 }
 

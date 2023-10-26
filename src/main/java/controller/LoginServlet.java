@@ -32,10 +32,10 @@ public class LoginServlet extends HttpServlet {
 			String choice = request.getParameter("choice");
 			AccountCreateEntity ace = new AccountCreateEntity();
 			if(choice.equals("create")) {
-				System.out.println("bf");
-				ace.addAccount();
-				System.out.println("bf2");
-				RequestDispatcher view = request.getRequestDispatcher("createaccount.jsp");
+				int idNum;
+				idNum = ace.addAccount();
+				request.setAttribute("idNum", String.valueOf(idNum));
+				RequestDispatcher view = request.getRequestDispatcher("view/createaccount1.jsp");
 				view.forward(request,  response);
 			} else {
 				String op1 = request.getParameter("op1");

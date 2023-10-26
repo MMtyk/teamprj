@@ -14,6 +14,6 @@ out.print(op1);
 %>
 
 <input type="text" name="nm" value=${op1 }><br>
-<input type=button value="로그아웃" onclick="location.href='login.jsp'">
+<input type=button value="로그아웃" onclick="location.href='view/login.jsp'">
 </body>
 </html>
